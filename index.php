@@ -1,5 +1,4 @@
 <?php
-
 include('configs/config.php');
 
 include('models/model.php');

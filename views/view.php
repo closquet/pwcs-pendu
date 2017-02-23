@@ -41,7 +41,7 @@
                         <select name="triedLetter"
                                 id="triedLetter">
                             <?php foreach ($lettersArray as $letter => $status): ?>
-                                <?php if ($status): ?>
+                                <?php if ($status == true): ?>
                                     <option value="<?php echo $letter; ?>"><?php echo $letter; ?></option>
                                 <?php endif; ?>
                             <?php endforeach; ?>

@@ -1,12 +1,13 @@
 <?php
-if($wordsArray = getWordsArray()){
-    if($_SERVER['REQUEST_METHOD'] === 'GET'){
-        include('controllers/getController.php');
-    }elseif($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+if ($wordsArray = getWordsArry()) {
+    if ($_SERVER['REQUEST_METHOD']==='POST') {
         include('controllers/postController.php');
-    }else{
-        $error = '<p>Cette méthode HTTP n’est pas utilisée</p>';
+    }elseif ($_SERVER['REQUEST_METHOD']==='GET') {
+        include('controllers/getController.php');
+    }else {
+        die('Houla ! Qu\'est-ce que tu fais avec cette méthode http ?');
     }
-}else{
-    $error = '<p>Ooops, un problème est survenu lors de la récupération des mots</p>';
+}else {
+    die('Houla ! on ne trouve pas le fichier.');
 }

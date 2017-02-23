@@ -1,7 +1,6 @@
 <?php
+
 $lettersArray = getLettersArray();
-$serializedLetters = serializeLetters($lettersArray);
-$wordIndex = getWordIndex($wordsArray);
-$word = getWord($wordsArray, $wordIndex);
-$lettersCount = strlen($word);
-$replacementString = getReplacementString($lettersCount);
+$serializedLetters = getSerializedLetters($lettersArray);
+$wordIndex = getRandomIndex($wordsArray);
+$word = getWord($wordArray, $wordIndex);

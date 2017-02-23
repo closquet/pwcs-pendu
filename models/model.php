@@ -1,62 +1,37 @@
 <?php
-function getLettersArray()
-{
-    return [
-        'a' => true,
-        'b' => true,
-        'c' => true,
-        'd' => true,
-        'e' => true,
-        'f' => true,
-        'g' => true,
-        'h' => true,
-        'i' => true,
-        'j' => true,
-        'k' => true,
-        'l' => true,
-        'm' => true,
-        'n' => true,
-        'o' => true,
-        'p' => true,
-        'q' => true,
-        'r' => true,
-        's' => true,
-        't' => true,
-        'u' => true,
-        'v' => true,
-        'w' => true,
-        'x' => true,
-        'y' => true,
-        'z' => true,
-    ];
-}
 
-function serializeLetters($lettersArray)
-{
-    return urlencode(serialize($lettersArray));
-}
+    function getLettersArray()
+    {
+        return [
+            'a' => true
+        ];
+    }
 
-function unserializeLetters($serializedLetters)
-{
-    return unserialize(urldecode($serializedLetters));
-}
+    function getSerializedLetters($lettersArray)
+    {
+        return urlencode(serialize($lettersArray));
+    }
+    function getUnSerializedLetters($lettersArray)
+    {
+        return unserialized(urldecode($lettersArray));
+    }
 
-function getWordsArray()
-{
-    return @file(SOURCE_NAME)?:false;
-}
+    function getWordsArry()
+    {
+        return file(SOURCE_NAME, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)?:false;
+    }
 
-function getWordIndex($wordsArray)
-{
-    return rand(0, count($wordsArray));
-}
+    function getRandomIndex($someArray)
+    {
+        return rand(0, count($someArray) - 1);
+    }
 
-function getWord($wordsArray, $wordIndex)
-{
-    return strtolower(trim($wordsArray[$wordIndex]));
-}
+    function getWord($wordsArray, $wordArray)
+    {
+        return streplace(' ', '', strtolower($wordsArray[$wordIndex]));
+    }
 
-function getReplacementString($lettersCount)
-{
-    return str_pad('',$lettersCount,REPLACEMENT_CHAR);
-}
+    function getReplacementString($count)
+    {
+        return str_pad('', $count, REPLACEMENT_CHAR);
+    }

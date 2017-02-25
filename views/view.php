@@ -13,21 +13,21 @@
         lettres&nbsp;: <?= $replacementString; ?></p>
 </div>
 <div>
-    <img src="images/pendu<?= $trials; ?>.gif"
-         alt="">
+    <img src="images/pendu<?= $trials; ?>.gif" alt="">
 </div>
 <div>
     <p>Voici les lettres que tu as déjà essayées&nbsp;: <?= $triedLetters; ?></p>
 </div>
 <?php if ($wordFound): ?>
     <div>
-        <p class="bg-success lead">Bravo&nbsp;! Tu as trouvé le mot
-            «&nbsp;<b><?= $word; ?></b>&nbsp;». <a href="index.php">Recommence&nbsp;!</a>
+        <p class="bg-success lead">
+            Bravo&nbsp;! Tu as trouvé le mot «&nbsp;<b><?= $word; ?></b>&nbsp;». <a href="index.php">Recommence&nbsp;!</a>
         </p>
     </div>
 <?php elseif ($remainingTrials == 0): ?>
     <div>
-        <p class="bg-danger lead">OOOps&nbsp;! Tu sembles bien mort&nbsp;! Le mot à trouver était «&nbsp;<b><?= $word ?></b>&nbsp;». <a href="index.php">Recommence&nbsp;!</a>
+        <p class="bg-danger lead">
+            OOOps&nbsp;! Tu sembles bien mort&nbsp;! Le mot à trouver était «&nbsp;<b><?= $word ?></b>&nbsp;». <a href="index.php">Recommence&nbsp;!</a>
         </p>
     </div>
 <?php else: ?>

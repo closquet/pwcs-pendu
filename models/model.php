@@ -54,7 +54,7 @@ function getRandomIndex($someArray)
 function getWordOfDb()
 {
     $pdo = connectDb();
-    $sql = 'SELECT wored FROM words ORDER BY RAND() LIMIT 1';
+    $sql = 'SELECT word FROM words ORDER BY RAND() LIMIT 1';
     $statement = $pdo->query($sql);
     if ($statement){
         return strtolower($statement->fetchColumn());

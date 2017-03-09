@@ -5,9 +5,7 @@ $trials = intval($_SESSION['trials']);
 
 $lettersArray = $_SESSION['lettersArray'];
 
-$wordIndex = intval($_SESSION['wordIndex']);
-
-$word = getWord($wordsArray, $wordIndex);
+$word = $_SESSION['word'];
 
 $lettersCount = strlen($word);
 
@@ -17,9 +15,6 @@ $triedLetters = $_SESSION['triedLetters'];
 
 $triedLetter = $_POST['triedLetter'];
 
-if ($triedLetters == '0'){
-    $triedLetters = '';
-}
 $triedLetters .= $triedLetter; // Modification de la chaîne des lettres déjà essayées en y ajoutant la nouvelle essayée par le joueur
 $lettersArray[$triedLetter] = false; // Modification du statut de la lettre qui vient d’être essayée. Son statut est mis à false dans le tableau $lettersArray
 

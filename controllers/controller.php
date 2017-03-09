@@ -1,11 +1,5 @@
 <?php
-/**
-* Ce fichier sert à inclure le code nécessaire à une réponse
-* HTTP en GET ou en POST. Avant de faire ces inclusions, il 
-* charge les mots depuis le fichier et mémorise l’Array des
-* mots dans $wordsArray 
-* 
-*/
+session_start();
 if ($wordsArray = getWordsArray()) {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         include('controllers/postController.php');

@@ -64,9 +64,9 @@ $triedLetters .= $triedLetter; // Modification de la chaîne des lettres déjà 
 $lettersArray[$triedLetter] = false; // Modification du statut de la lettre qui vient d’être essayée. Son statut est mis à false dans le tableau $lettersArray
 $serializedLetters = getSerializedLetters($lettersArray); // Transformation du tableau des lettres en une chaine qui le représente
 
-$letterPos = false;
-$letterPos = getLetterPosition($word, $triedLetter);
-if ($letterPos === false){
+$letterFound = false;
+$letterFound = testLetter($word, $triedLetter);
+if ($letterFound === false){
     $trials++;
 }else{
     foreach (str_split($word) as $index => $letter){

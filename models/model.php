@@ -98,7 +98,7 @@ function getReplacementString($count)
  * @param  string
  * @return integer
  */
-function getLetterPosition($word, $letter)
+function testLetter($word, $letter)
 {
     return strpos($word, $letter);
 }

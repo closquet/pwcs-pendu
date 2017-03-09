@@ -93,3 +93,12 @@ function getReplacementString($count)
 {
     return str_pad('', $count, REPLACEMENT_CHAR);
 }
+
+/**
+ * @param  string
+ * @return integer
+ */
+function getLetterPosition($word, $letter)
+{
+    return strpos($word, $letter);
+}

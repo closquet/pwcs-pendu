@@ -16,12 +16,14 @@ $remainingTrials = MAX_TRIALS;
  * @var integer
  */
 $trials = 0;
+setcookie('trials', $trials);
 
 /**
  * Les lettres déjà essayées
  * @var string
  */
-$triedLetters = '';
+$triedLetters = '0';
+setcookie('triedLetters', $triedLetters);
 
 /**
  * Un tableau des lettres utilisables pour faire le select
@@ -34,12 +36,14 @@ $lettersArray = getLettersArray();
  * @var string
  */
 $serializedLetters = getSerializedLetters($lettersArray);
+setcookie('serializedLetters', $serializedLetters);
 
 /**
  * La position du mot à trouver dans le tableau
  * @var integer
  */
 $wordIndex = getRandomIndex($wordsArray);
+setcookie('wordIndex', $wordIndex);
 
 /**
  * Le mot à trouver
@@ -58,3 +62,5 @@ $lettersCount = strlen($word);
  * @var string
  */
 $replacementString = getReplacementString($lettersCount);
+setcookie('replacementString', $replacementString);
+

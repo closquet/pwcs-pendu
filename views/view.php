@@ -48,24 +48,6 @@
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </select>
-                <input type="hidden"
-                       name="serializedLetters"
-                       value="<?= $serializedLetters; ?>">
-                <input type="hidden"
-                       name="triedLetters"
-                       value="<?= $triedLetters; ?>">
-                <input type="hidden"
-                       name="wordIndex"
-                       value="<?= $wordIndex; ?>">
-                <input type="hidden"
-                       name="replacementString"
-                       value="<?= $replacementString; ?>">
-                <input type="hidden"
-                       name="lettersCount"
-                       value="<?= $lettersCount; ?>">
-                <input type="hidden"
-                       name="trials"
-                       value="<?= $trials; ?>">
                 <input type="submit"
                        value="essayer cette lettre">
             </div>

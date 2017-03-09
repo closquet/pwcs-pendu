@@ -44,7 +44,7 @@ function getLettersArray()
  */
 function getSerializedLetters($someArrayToSerialize)
 {
-    return urlencode(serialize($someArrayToSerialize));
+    return serialize($someArrayToSerialize);
 }
 
 /**
@@ -54,7 +54,7 @@ function getSerializedLetters($someArrayToSerialize)
  */
 function getUnserializedLetters($somethingToUnserialize)
 {
-    return unserialize(urldecode($somethingToUnserialize));
+    return unserialize($somethingToUnserialize);
 }
 
 /**

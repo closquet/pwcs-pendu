@@ -9,13 +9,13 @@ $wordFound = false;
  * Le nombre d’essais infructueux déjà fait
  * @var integer
  */
-$trials = intval($_POST['trials']);
+$trials = intval($_COOKIE['trials']);
 
 /**
  * Une chaîne qui représente le tableau des lettres
  * @var string
  */
-$serializedLetters = $_POST['serializedLetters'];
+$serializedLetters = $_COOKIE['serializedLetters'];
 
 /**
  * Un tableau des lettres utilisables pour faire le select
@@ -27,7 +27,7 @@ $lettersArray = getUnserializedLetters($serializedLetters);
  * La position du mot à trouver dans le tableau
  * @var int
  */
-$wordIndex = intval($_POST['wordIndex']);
+$wordIndex = intval($_COOKIE['wordIndex']);
 
 /**
  * Le mot à trouver
@@ -45,13 +45,13 @@ $lettersCount = strlen($word);
  * La chaîne fantôme qui masque les lettres du mot avec un caractère de remplacement
  * @var string
  */
-$replacementString = $_POST['replacementString'];
+$replacementString = $_COOKIE['replacementString'];
 
 /**
  * Les lettres déjà essayées
  * @var string
  */
-$triedLetters = $_POST['triedLetters'];
+$triedLetters = $_COOKIE['triedLetters'];
 
 /**
  * La lettre qui vient d’être essayée
@@ -59,10 +59,13 @@ $triedLetters = $_POST['triedLetters'];
  */
 $triedLetter = $_POST['triedLetter'];
 
-
+if ($triedLetters == '0'){
+    $triedLetters = '';
+}
 $triedLetters .= $triedLetter; // Modification de la chaîne des lettres déjà essayées en y ajoutant la nouvelle essayée par le joueur
 $lettersArray[$triedLetter] = false; // Modification du statut de la lettre qui vient d’être essayée. Son statut est mis à false dans le tableau $lettersArray
 $serializedLetters = getSerializedLetters($lettersArray); // Transformation du tableau des lettres en une chaine qui le représente
+
 
 $letterFound = false;
 $letterFound = testLetter($word, $triedLetter);
@@ -72,23 +75,14 @@ if ($letterFound === false){
     foreach (str_split($word) as $index => $letter){
         if ($letter == $triedLetter){
             $replacementString[$index] = $letter;
+            setcookie('replacementString', $replacementString);
             if ($word == $replacementString){
                 $wordFound = true;
             }
         }
     }
 }
-
-
-//$tabz = ["a","b","c"];
-//var_dump($tabz);
-//$tabz = implode('', $tabz);
-//var_dump($tabz);
-//$tabz = str_split($tabz);
-//var_dump($tabz);
-
-
-
-
-
 $remainingTrials = MAX_TRIALS - $trials;
+setcookie('serializedLetters', $serializedLetters);
+setcookie('trials', $trials);
+setcookie('triedLetters', $triedLetters);

@@ -31,65 +31,128 @@ function getLettersArray()
     ];
 }
 
-function getSerializedLetters($someArrayToSerialize)
+function getWordFromFile()
 {
-    return serialize($someArrayToSerialize);
-}
-
-function getUnserializedLetters($somethingToUnserialize)
-{
-    return unserialize($somethingToUnserialize);
-}
-
-function getWordsArray()
-{
-    return @file(SOURCE_NAME, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: false;
-}
-
-function getRandomIndex($someArray)
-{
-    return rand(0, count($someArray) - 1);
-}
-
-function getWordOfDb()
-{
-    $pdo = connectDb();
-    $sql = 'SELECT word FROM words ORDER BY RAND() LIMIT 1';
-    $statement = $pdo->query($sql);
-    if ($statement){
-        return strtolower($statement->fetchColumn());
+    $wordsArray
+        = @file(BACKUP_FILE, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [];
+    if ($wordsArray) {
+        return strtolower($wordsArray[rand(0, count($wordsArray) - 1)]);
+    } else {
+        header('Location: http://cours.app/pendu-db/errors/error_main.php');
+        exit;
     }
 }
 
-function getWord($wordsArray, $wordIndex)
+function getWord()
 {
-    $wordOfDb = getWordOfDb();
-    if ($wordOfDb){
-        echo $wordOfDb . ' de la base de donnée';
-        return $wordOfDb;
+    $pdo = connectDB();
+    if ($pdo) {
+        $sql = 'SELECT word FROM pendu.words ORDER BY RAND()';
+        try {
+            $pdoSt = $pdo->query($sql);
+            return strtolower($pdoSt->fetchColumn());
+        } catch (PDOException $e) {
+            return getWordFromFile();
+        }
+    } else {
+        return getWordFromFile();
     }
-    echo (str_replace(' ', '', strtolower($wordsArray[$wordIndex]))) . ' du fichier';
-    return str_replace(' ', '', strtolower($wordsArray[$wordIndex]));
 }
 
-function getReplacementString($count)
+function connectDB()
 {
-    return str_pad('', $count, REPLACEMENT_CHAR);
-}
-
-function testLetter($word, $letter)
-{
-    return strpos($word, $letter);
-}
-
-function connectDb()
-{
-    $connectInfo = parse_ini_file(SOURCE_DB);
-    $dsn = sprintf('mysql:host=%s;dbname=%s', $connectInfo['HOST'], $connectInfo['DB_NAME']);
+    $dbConfig = @parse_ini_file(DB_INI_FILE);
+    $dsn = sprintf(
+        'mysql:dbname=%s;host=%s',
+        $dbConfig['DB_NAME'],
+        $dbConfig['DB_HOST']
+    );
     try {
-        return new PDO($dsn, $connectInfo['USER'], $connectInfo['PASS']);
+        return new PDO(
+            $dsn,
+            $dbConfig['DB_USER'],
+            $dbConfig['DB_PASS'],
+            [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
+            ]
+        );
     } catch (PDOException $e) {
-        echo 'Exception reçue : ',  $e->getMessage(), "\n";
+        return false;
     }
 }
 
+function getReplacementString($lettersCount)
+{
+    return str_pad('', $lettersCount, REPLACEMENT_CHAR);
+}
+
+function initGame()
+{
+    $_SESSION['wordFound'] = false;
+    $_SESSION['remainingTrials'] = MAX_TRIALS;
+    $_SESSION['trials'] = 0;
+    $_SESSION['triedLetters'] = '';
+    $_SESSION['lettersArray'] = getLettersArray();
+    $_SESSION['word'] = getWord();
+    $_SESSION['lettersCount'] = strlen($_SESSION['word']);
+    $_SESSION['replacementString'] = getReplacementString($_SESSION['lettersCount']);
+    $_SESSION['attempts'] = 0;
+}
+
+function saveGame()
+{
+    $pdo = connectDB();
+    if ($pdo) {
+        $sql = 'INSERT INTO pendu.games(`username`,`trials`,`word`,`attempts`) VALUES (:email,:trials,:word,:attempts)';
+        try {
+            $pdoSt = $pdo->prepare($sql);
+            $pdoSt->execute([
+                ':email' => $_SESSION['email'],
+                ':trials' => $_SESSION['trials'],
+                ':word' => $_SESSION['word'],
+                ':attempts' => $_SESSION['attempts']
+            ]);
+        } catch (PDOException $e) {
+            die('Quelque chose a posé problème lors de l’enregistrement');
+        }
+    } else {
+        die('Quelque chose a posé problème lors de l’enregistrement');
+    }
+}
+
+function getGamesCountForCurrentPlayer()
+{
+    $pdo = connectDB();
+    if ($pdo) {
+        $sql = sprintf('SELECT COUNT(*) FROM pendu.games WHERE username = \'%s\'', $_SESSION['email']);
+        try {
+            $pdoSt = $pdo->query($sql);
+            return $pdoSt->fetchColumn();
+        } catch (PDOException $e) {
+            return '';
+        }
+    } else {
+        die('Quelque chose a posé problème lors de la récupération du nombre de parties');
+    }
+}
+
+function getGamesWonForCurrentPlayer()
+{
+    $pdo = connectDB();
+    if ($pdo) {
+        $sql = sprintf(
+            'SELECT COUNT(*) FROM pendu.games WHERE username = \'%s\' AND trials < \'%s\'',
+            $_SESSION['email'],
+            MAX_TRIALS
+        );
+        try {
+            $pdoSt = $pdo->query($sql);
+            return $pdoSt->fetchColumn();
+        } catch (PDOException $e) {
+            return '';
+        }
+    } else {
+        die('Quelque chose a posé problème lors de la récupération du nombre de parties gagnées');
+    }
+}

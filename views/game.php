@@ -1,48 +1,43 @@
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Le pendu</title>
-</head>
-<body>
 <div>
-    <h1>Trouve le mot en moins de <?= MAX_TRIALS; ?> coups !</h1>
+    <h1>Salut <?= $_SESSION['email']; ?> ! Trouve le mot en moins de <?= MAX_TRIALS; ?> coups !</h1>
 </div>
 <div>
-    <p>Le mot à deviner compte <?= $lettersCount; ?>
-        lettres&nbsp;: <?= $replacementString; ?></p>
+    <p>Le mot à deviner compte <?= $_SESSION['lettersCount']; ?>
+        lettres&nbsp;: <?= $_SESSION['replacementString']; ?></p>
 </div>
 <div>
-    <img src="images/pendu<?= $trials; ?>.gif" alt="">
+    <img src="images/pendu<?= $_SESSION['trials']; ?>.gif"
+         alt="">
 </div>
 <div>
-    <p>Voici les lettres que tu as déjà essayées&nbsp;: <?= $triedLetters; ?></p>
+    <p>Voici les lettres que tu as déjà essayées&nbsp;: <?= $_SESSION['triedLetters']; ?></p>
 </div>
-<?php if ($wordFound): ?>
+<?php if ($_SESSION['wordFound']
+): ?>
     <div>
-        <p class="bg-success lead">
-            Bravo&nbsp;! Tu as trouvé le mot «&nbsp;<b><?= $word; ?></b>&nbsp;». <a
-                href="index.php">Recommence&nbsp;!</a>
+        <p class="bg-success lead">Bravo&nbsp;! Tu as trouvé le mot
+            «&nbsp;<b><?= $_SESSION['word']; ?></b>&nbsp;». <a href="<?= $_SERVER['PHP_SELF']; ?>">Recommence&nbsp;!</a>
         </p>
     </div>
-<?php elseif ($remainingTrials == 0): ?>
+    <?php include('views/partials/_gamesCount.php'); ?>
+<?php elseif ($_SESSION['remainingTrials'] == 0): ?>
     <div>
-        <p class="bg-danger lead">
-            OOOps&nbsp;! Tu sembles bien mort&nbsp;! Le mot à trouver était «&nbsp;<b><?= $word ?></b>&nbsp;». <a
-                href="index.php">Recommence&nbsp;!</a>
+        <p class="bg-danger lead">OOOps&nbsp;! Tu sembles bien mort&nbsp;! Le mot à trouver était
+            «&nbsp;<b><?= $_SESSION['word']; ?></b>&nbsp;». <a href="<?= $_SERVER['PHP_SELF']; ?>">Recommence&nbsp;!</a>
         </p>
     </div>
+    <?php include('views/partials/_gamesCount.php'); ?>
 <?php else: ?>
-    <form action="index.php"
+    <form action="<?= $_SERVER['PHP_SELF']; ?>"
           method="post">
         <fieldset>
-            <legend>Il te reste <?= $remainingTrials; ?> essais pour sauver ta peau
+            <legend>Il te reste <?= $_SESSION['remainingTrials']; ?> essais pour sauver ta peau
             </legend>
             <div>
                 <label for="triedLetter">Choisis ta lettre</label>
                 <select name="triedLetter"
                         id="triedLetter">
-                    <?php foreach ($lettersArray as $letter => $status): ?>
+                    <?php foreach ($_SESSION['lettersArray'] as $letter => $status): ?>
                         <?php if ($status): ?>
                             <option value="<?= $letter; ?>"><?= $letter; ?></option>
                         <?php endif; ?>
@@ -54,5 +49,3 @@
         </fieldset>
     </form>
 <?php endif; ?>
-</body>
-</html>

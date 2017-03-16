@@ -1,13 +1,19 @@
 <?php
 session_start();
-if ($wordsArray = getWordsArray()) {
+if (file_exists(DB_INI_FILE) || file_exists(BACKUP_FILE)) {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        include('controllers/postController.php');
+        if (isset($_POST['email'])) {
+            include 'controllers/postPlayerController.php';
+        } else {
+            include 'controllers/postGameController.php';
+        }
     } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        include('controllers/getController.php');
+        include 'controllers/getGameController.php';
     } else {
-        die('Houla ! Qu’est-ce que tu fais avec cette méthode HTTP ?');
+        header('Location: http://cours.app/pendu-db/errors/error_405.php');
+        exit;
     }
-}else{
-    die('Houla ! On a eu un problème pour récupérer les mots dans le fichier');
+} else {
+    header('Location: http://cours.app/pendu-db/errors/error_main.php');
+    exit;
 }

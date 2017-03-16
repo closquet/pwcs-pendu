@@ -1,5 +1,5 @@
 <?php
-define('MAX_TRIALS', 8); // Le nombre d’essais maximal
-define('SOURCE_NAME', 'datas/words.txt'); // Le chemin vers le fichier qui contient les mots
-define('REPLACEMENT_CHAR', '*'); // Le caractère à utiliser pour créer la chaîne fantôme en remplaçant les lettres
-define('SOURCE_DB', 'configs/db.ini'); // Le chemin vers le fichier qui contient les données utiles à la connection de la DB
+define('MAX_TRIALS', 8);
+define('BACKUP_FILE', 'datas/words.txt');
+define('DB_INI_FILE', 'configs/db.ini');
+define('REPLACEMENT_CHAR', '*');

@@ -22,14 +22,14 @@
     <div>
         <p class="bg-success lead">
             Bravo&nbsp;! Tu as trouvé le mot «&nbsp;<b><?= $word; ?></b>&nbsp;». <a
-                    href="index.php">Recommence&nbsp;!</a>
+                href="index.php">Recommence&nbsp;!</a>
         </p>
     </div>
 <?php elseif ($remainingTrials == 0): ?>
     <div>
         <p class="bg-danger lead">
             OOOps&nbsp;! Tu sembles bien mort&nbsp;! Le mot à trouver était «&nbsp;<b><?= $word ?></b>&nbsp;». <a
-                    href="index.php">Recommence&nbsp;!</a>
+                href="index.php">Recommence&nbsp;!</a>
         </p>
     </div>
 <?php else: ?>

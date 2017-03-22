@@ -11,13 +11,14 @@
 
 <div>
     <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post">
-        <label for="email">Ton email (pas obligatoire)</label>
-        <input type="text" id="email" name="email"
-               placeholder="jon.snow@nightwatch.north"
-               value="<?= $_SESSION['email']; ?>">
+        <label for="email">Ton email (pas obligatoire)</label><input type="text" id="email" name="email"
+                                                                     placeholder="jon.snow@nightwatch.north"
+                                                                     value="<?= $_SESSION['email']; ?>">
         <?php if (isset($_SESSION['errors']['email'])): ?>
             <div><p><?= $_SESSION['errors']['email']; ?></p></div>
         <?php endif; ?>
+        <input type="hidden" name="r" value="player">
+        <input type="hidden" name="a" value="register">
         <input type="submit" value="Jouer">
 
     </form>
